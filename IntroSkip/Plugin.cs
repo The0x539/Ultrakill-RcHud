@@ -13,10 +13,6 @@ public sealed class Plugin : BaseUnityPlugin {
     private static string targetScene = "Main Menu";
 
     public Plugin() {
-        if (SceneManager.GetActiveScene().name != "Bootstrap") {
-            return;
-        }
-
         var configEntry = this.Config.Bind("IntroSkip", "TargetScene", "Main Menu");
         targetScene = GetSceneArg() ?? configEntry.Value;
         Harmony.CreateAndPatchAll(this.GetType());
