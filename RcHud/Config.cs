@@ -4,6 +4,8 @@ namespace RcHud;
 
 #nullable disable
 
+public enum StaminaColorMode { Vanilla, Static, AllRed, AllDark, RedDark }
+
 public static class Config {
     private static ConfigEntry<bool>
         refreshFistOnPunch,
@@ -22,8 +24,8 @@ public static class Config {
     public static bool HiVisOverheal => hiVisOverheal.Value;
     public static bool PersistentHp => persistentHp.Value;
 
-    private static ConfigEntry<int> staminaColorMode;
-    public static int StaminaColorMode => staminaColorMode.Value;
+    private static ConfigEntry<StaminaColorMode> staminaColorMode;
+    public static StaminaColorMode StaminaColorMode => staminaColorMode.Value;
 
     private static ConfigEntry<float>
         iconFade,
@@ -50,16 +52,16 @@ public static class Config {
         refreshOnMusic = cfg.Bind("Refresh", "BattleMusic", true);
         refreshOnBossBar = cfg.Bind("Refresh", "BossHealthBar", true);
 
-        var scmDesc = new ConfigDescription("""
-            0: vanilla behavior (first segment red while charging)
-            1: all segments blue, all the time
-            2: all segments red while charging
-            3: all segments dark blue while charging
-            4: first segment red while charging, other segments dark blue
-            (the actual colors reflect game color settings)
-            """, new AcceptableValueList<int>([0, 1, 2, 3, 4]));
+        string[] scmDescriptions = [
+            "Vanilla: vanilla behavior (first segment red while charging)",
+            "Static: all segments blue, all the time",
+            "AllRed: all segments red while charging",
+            "AllDark: all segments dark blue while charging",
+            "RedDark: first segment red while charging, other segments dark blue",
+            "(the actual colors reflect game color settings)",
+        ];
 
-        staminaColorMode = cfg.Bind("Tweaks", "StaminaColorMode", 2, scmDesc);
+        staminaColorMode = cfg.Bind("Tweaks", "StaminaColorMode", StaminaColorMode.AllRed, string.Join("\n", scmDescriptions));
         hiVisOverheal = cfg.Bind("Tweaks", "HiVisOverheal", true, "Display overheal as a dark green ring with a different thickness");
         persistentHp = cfg.Bind("Tweaks", "PersistentHp", true, "Prevent HP wheel from fading if damaged or overhealed");
 

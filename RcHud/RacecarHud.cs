@@ -133,11 +133,11 @@ public sealed class RacecarHud : MonoSingleton<RacecarHud> {
             var first = i == 2;
 
             chud.color = Config.StaminaColorMode switch {
-                0 => full ? blue : (first ? red : blue),
-                1 => blue,
-                2 => full ? blue : red,
-                3 => full ? blue : dark,
-                4 => full ? blue : (first ? red : dark),
+                StaminaColorMode.Vanilla => full ? blue : (first ? red : blue),
+                StaminaColorMode.Static => blue,
+                StaminaColorMode.AllRed => full ? blue : red,
+                StaminaColorMode.AllDark => full ? blue : dark,
+                StaminaColorMode.RedDark => full ? blue : (first ? red : dark),
                 _ => Color.magenta, // invalid
             };
         }
