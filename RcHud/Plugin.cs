@@ -51,9 +51,17 @@ public sealed class Plugin : BaseUnityPlugin {
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(GunControl), nameof(GunControl.SwitchWeapon))]
-    [HarmonyPatch(new Type[] { typeof(int) })]
-    [HarmonyPatch(new Type[] { typeof(int), typeof(List<GameObject>), typeof(bool), typeof(bool), typeof(bool) })]
+    [HarmonyPatch([typeof(int), typeof(bool)])]
+    [HarmonyPatch([typeof(int), typeof(List<GameObject>), typeof(bool), typeof(bool), typeof(bool), typeof(bool)])]
     static void RefreshGunIcon() {
+        if (RcHud.Config.RefreshGunOnSwitch) {
+            RacecarHud.Instance.RefreshGun();
+        }
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(GunControl), nameof(GunControl.SwitchVariant))]
+    static void RefreshGunIcon2() {
         if (RcHud.Config.RefreshGunOnSwitch) {
             RacecarHud.Instance.RefreshGun();
         }
